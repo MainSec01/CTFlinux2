@@ -87,17 +87,20 @@ RUN useradd -m -d /home/barbarian3 -s /bin/bash barbarian3 \
 RUN echo "barbarian3 ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 # Change ownership of the files in /home/barbarian3
-RUN chown -R barbarian3:barbarian3 /home/barbarian3
+#RUN chown -R barbarian3:barbarian3 /home/barbarian3
 
 # Set password for root user (change as needed)
 RUN echo "root:hack123" | chpasswd
 
 # Clean up any potential extra directories
-RUN rm -rf /home/barbarian3/barbarian3 || true
+RUN rm -rf /home/barbarian3 || true
+
+RUN useradd -m -d /home/Admin -s /bin/bash Admin \
+    && echo "Admin:Admin" | chpasswd
 
 # Set 'barbarian3' as the default user and set the working directory
-USER barbarian3
-WORKDIR /home/barbarian3
+USER Admin
+WORKDIR /home/Admin
 
 # Start bash
 CMD ["bash"]
